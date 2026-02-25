@@ -4,10 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "install-client": "npm install --prefix client",
+    "build-client": "npm run build --prefix client",
+    "start": "node server/server.js",
+    "build": "npm install && npm run install-client && npm run build-client"
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.12",
