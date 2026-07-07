@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const Auth = require("./Models/AuthModel");
 const Profile = require("./Models/profileModel");
-const Project = require("./Models/projectModel");
 
 dotenv.config();
 
@@ -15,14 +14,13 @@ const seedData = async () => {
         console.log("Clearing existing data...");
         await Auth.deleteMany({});
         await Profile.deleteMany({});
-        await Project.deleteMany({});
         console.log("Data cleared.");
 
         console.log("Creating Admin User...");
         const adminUser = new Auth({
-            name: "Roshan Bist",
-            email: "admin@example.com",
-            password: "password123" // Will be hashed by pre('save') hook
+            name: "Madan Saud",
+            email: "madansaud@gmail.com",
+            password: "madan@123" // Will be hashed by pre('save') hook
         });
         await adminUser.save();
         console.log("Admin User created.");
@@ -30,64 +28,42 @@ const seedData = async () => {
         console.log("Creating Profile...");
         const profile = new Profile({
             name: "Roshan Bist",
-            title: "Full Stack Developer",
+            title: "Agronomist | Bachelor in Agriculture",
             email: "admin@example.com",
             phone: "+1234567890",
-            address: "123 Tech Street, Silicon Valley",
-            bio: "Passionate Full Stack Developer with experience in MERN stack.",
+            address: "Agricultural District",
+            bio: "Passionate Agronomist specializing in sustainable farming practices and crop optimization.",
             socialLinks: {
                 linkedin: "https://linkedin.com/in/roshanbist",
                 github: "https://github.com/roshanbist",
                 twitter: "https://twitter.com/roshanbist"
             },
-            skills: ["JavaScript", "React", "Node.js", "MongoDB", "Express"],
+            skills: ["Crop Science", "Soil Analysis", "Pest Management", "Sustainable Agriculture", "Farm Economics"],
             experience: [
                 {
-                    title: "Senior Developer",
-                    company: "Tech Corp",
+                    title: "Junior Agronomist",
+                    company: "AgriTech Farms",
                     duration: "2023 - Present",
-                    description: "Leading the frontend team."
+                    description: "Leading field trials and optimizing crop yields."
                 }
             ],
             education: [
                 {
-                    degree: "B.S. Computer Science",
-                    school: "University of Tech",
+                    degree: "B.Sc. Agriculture",
+                    school: "National Agriculture University",
                     year: "2022"
                 }
             ],
-            achievements: ["Employee of the Month"],
-            certifications: ["AWS Certified Developer"],
+            achievements: ["Best Field Researcher Award"],
+            certifications: ["Certified Crop Specialist"],
             languages: ["English", "Nepali"],
-            interests: ["Coding", "Hiking"],
+            interests: ["Farming", "Sustainability", "Hiking"],
             portfolio: "https://roshanbist.com"
         });
         await profile.save();
         console.log("Profile created.");
 
-        console.log("Creating Projects...");
-        const projects = [
-            {
-                title: "Portfolio Website",
-                description: "A personal portfolio website built with React and Node.js.",
-                image: "https://via.placeholder.com/150",
-                link: "https://roshanbist.com",
-                project_status: "completed",
-                github: "https://github.com/roshanbist/portfolio",
-                public: true
-            },
-            {
-                title: "E-commerce App",
-                description: "Full-featured e-commerce application.",
-                image: "https://via.placeholder.com/150",
-                link: "https://shop.example.com",
-                project_status: "in-progress",
-                github: "https://github.com/roshanbist/ecommerce",
-                public: true
-            }
-        ];
-        await Project.insertMany(projects);
-        console.log("Projects created.");
+
 
         console.log("Data seeding completed successfully!");
         process.exit(0);

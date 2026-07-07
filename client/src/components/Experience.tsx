@@ -52,20 +52,22 @@ const Experience = () => {
                         <h2 className="heading">Work Experience</h2>
                         <div className="timeline">
                             {experience.map((exp: any, index: number) => (
-                                <div key={index} className="timeline-item">
-                                    <div className="timeline-dot"></div>
-                                    <div className="timeline-content">
-                                        <h4>{exp.title} <span className="company">@ {exp.company}</span></h4>
-                                        <div className="duration">
-                                            <span>{exp.duration}</span>
+                                <ScrollReveal key={index} delay={index * 0.1} threshold={0.15}>
+                                    <div className="timeline-item">
+                                        <div className="timeline-dot"></div>
+                                        <div className="timeline-content">
+                                            <h4>{exp.title} <span className="company">@ {exp.company}</span></h4>
+                                            <div className="duration">
+                                                <span>{exp.duration}</span>
+                                            </div>
+                                            <ul className="experience-desc-list">
+                                                {exp.description?.split('\n').filter((line: string) => line.trim() !== '').map((line: string, i: number) => (
+                                                    <li key={i}>{highlightKeywords(line.replace(/^-\s*/, ''))}</li>
+                                                ))}
+                                            </ul>
                                         </div>
-                                        <ul className="experience-desc-list">
-                                            {exp.description?.split('\n').filter((line: string) => line.trim() !== '').map((line: string, i: number) => (
-                                                <li key={i}>{highlightKeywords(line.replace(/^-\s*/, ''))}</li>
-                                            ))}
-                                        </ul>
                                     </div>
-                                </div>
+                                </ScrollReveal>
                             ))}
                         </div>
                     </div>
@@ -84,7 +86,7 @@ const Experience = () => {
                  content: '';
                  position: absolute;
                  width: 2px;
-                 background: rgba(59, 130, 246, 0.15);
+                 background: linear-gradient(to bottom, var(--primary-color), rgba(16, 185, 129, 0.1));
                  top: 0;
                  bottom: 0;
                  left: 20px;
@@ -132,7 +134,7 @@ const Experience = () => {
                  content: '';
                  position: absolute;
                  top: 0; left: 0; right: 0; bottom: 0;
-                 background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(217, 70, 239, 0.05) 100%);
+                 background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
                  opacity: 0;
                  transition: opacity 0.4s ease;
                  z-index: 0;
@@ -144,9 +146,18 @@ const Experience = () => {
              }
     
              .timeline-content:hover {
-                 transform: translateY(-8px) scale(1.02);
-                 border-color: rgba(59, 130, 246, 0.3);
-                 box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+                 transform: translateY(-6px);
+                 border-color: rgba(16, 185, 129, 0.3);
+                 box-shadow: 0 12px 40px rgba(16, 185, 129, 0.1);
+             }
+
+             @media (max-width: 768px) {
+                 .timeline-content {
+                     padding: 20px;
+                 }
+                 .timeline-content h4 {
+                     font-size: 1.1rem;
+                 }
              }
     
              .timeline-content h4 {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import ScrollReveal from '../components/ScrollReveal';
+import Experience from '../components/Experience';
 
 const About = () => {
     const [profile, setProfile] = useState<any>(null);
@@ -43,40 +44,43 @@ const About = () => {
     };
 
     return (
-        <div className="section" id="about">
-            <div className="container about-container">
-                <h2 className="heading">About Me</h2>
+        <React.Fragment>
+            <div className="section" id="about">
+                <div className="container about-container">
+                    <h2 className="heading">About Me</h2>
 
-                <ScrollReveal>
-                    <div className="about-glass-panel">
-                        <div className="about-text">
-                            <p className="bio-text">
-                                <span className="intro-label">Introduction: </span>
-                                {highlightKeywords(profile.bio)}
-                            </p>
+                    <ScrollReveal>
+                        <div className="about-glass-panel">
+                            <div className="about-text">
+                                <p className="bio-text">
+                                    <span className="intro-label">Introduction: </span>
+                                    {highlightKeywords(profile.bio)}
+                                </p>
 
-                            {profile.highlights && profile.highlights.length > 0 && (
-                                <div className="highlights-section">
-                                    <h3 className="highlights-title">HIGHLIGHTS</h3>
-                                    <div className="highlights-grid">
-                                        {profile.highlights.map((highlight: string, index: number) => (
-                                            <div key={index} className="highlight-card">
-                                                <div className="highlight-dot"></div>
-                                                <div className="highlight-text">{highlightKeywords(highlight)}</div>
-                                            </div>
-                                        ))}
+                                {profile.highlights && profile.highlights.length > 0 && (
+                                    <div className="highlights-section">
+                                        <h3 className="highlights-title">HIGHLIGHTS</h3>
+                                        <div className="highlights-grid">
+                                            {profile.highlights.map((highlight: string, index: number) => (
+                                                <ScrollReveal key={index} delay={index * 0.08} threshold={0.1}>
+                                                    <div className="highlight-card">
+                                                    <div className="highlight-dot"></div>
+                                                    <div className="highlight-text">{highlightKeywords(highlight)}</div>
+                                                    </div>
+                                                </ScrollReveal>
+                                            ))}
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                )}
+                            </div>
                         </div>
-                    </div>
-                </ScrollReveal>
-            </div>
+                    </ScrollReveal>
+                </div>
 
-            <style>{`
+                <style>{`
         .about-glass-panel {
           background: rgba(17, 24, 39, 0.4);
-          border: 1px solid rgba(59, 130, 246, 0.15);
+          border: 1px solid rgba(16, 185, 129, 0.15);
           border-radius: 12px;
           padding: 3rem;
           backdrop-filter: blur(10px);
@@ -85,7 +89,7 @@ const About = () => {
         }
 
         .about-text p.bio-text {
-          font-size: 1.15rem;
+          font-size: clamp(1.1rem, 2.5vw, 1.4rem);
           line-height: 1.8;
           margin-bottom: 3rem;
           color: var(--text-primary);
@@ -97,9 +101,9 @@ const About = () => {
         }
 
         .highlights-title {
-            font-size: 0.9rem;
+            font-size: 1.25rem;
             letter-spacing: 2px;
-            color: #d946ef; /* Light purple for Highlights just like the image */
+            color: var(--primary-color);
             margin-bottom: 1.5rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -129,7 +133,7 @@ const About = () => {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(217, 70, 239, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
             z-index: 0;
@@ -142,7 +146,7 @@ const About = () => {
 
         .highlight-card:hover {
             transform: translateY(-8px) scale(1.02);
-            border-color: rgba(59, 130, 246, 0.3);
+            border-color: rgba(16, 185, 129, 0.3);
             box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
         }
 
@@ -160,7 +164,7 @@ const About = () => {
 
         .highlight-text {
             color: #f1f5f9; /* Near white for maximum readability against dark slate */
-            font-size: 1.1rem; /* Slightly larger font */
+            font-size: 1.5rem; /* Slightly larger font */
             line-height: 1.6;
             font-weight: 400;
             position: relative;
@@ -224,7 +228,9 @@ const About = () => {
             filter: none;
          }
       `}</style>
-        </div>
+            </div>
+            <Experience />
+        </React.Fragment>
     );
 };
 

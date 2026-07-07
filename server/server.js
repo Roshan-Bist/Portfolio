@@ -7,7 +7,7 @@ const app = express();
 const connectDB = require("./Database/connectDb");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-const projectRoutes = require("./routes/projectRoutes");
+const articleRoutes = require("./routes/articleRoutes");
 
 app.use(express.json());
 
@@ -16,8 +16,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
-app.use("/api/project", projectRoutes);
-
+app.use("/api/articles", articleRoutes);
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
 

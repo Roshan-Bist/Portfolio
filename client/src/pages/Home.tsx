@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Github, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
+import { motion } from 'motion/react';
 import axios from 'axios';
 
 const Home = () => {
     const [profile, setProfile] = useState<any>(null);
-
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -25,116 +25,173 @@ const Home = () => {
         fetchProfile();
     }, []);
 
-    if (error) return <div className="container section" style={{ color: 'red' }}>{error}</div>;
-    if (!profile) return <div className="container section">Loading profile...</div>;
+    const scrollToAbout = () => {
+        document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+    };
+
+    if (error) return <div className="container section" style={{ color: '#f87171' }}>{error}</div>;
+
+    if (!profile) {
+        return (
+            <div className="hero section">
+                <div className="container">
+                    <div className="hero-content hero-skeleton">
+                        <div className="skeleton hero-skeleton__img" />
+                        <div className="hero-skeleton__text">
+                            <div className="skeleton hero-skeleton__line hero-skeleton__line--sm" />
+                            <div className="skeleton hero-skeleton__line hero-skeleton__line--lg" />
+                            <div className="skeleton hero-skeleton__line hero-skeleton__line--md" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    const imageUrl = profile.image?.startsWith('http')
+        ? profile.image
+        : `http://localhost:3004${profile.image}`;
+
+    const resumeUrl = profile.resume?.startsWith('http')
+        ? profile.resume
+        : `http://localhost:3004${profile.resume}`;
+
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.12, delayChildren: 0.1 },
+        },
+    };
+
+    const itemVariants = {
+        hidden: { opacity: 0, y: 28 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] as const },
+        },
+    };
 
     return (
         <div className="home-page">
             <section className="hero section">
                 <div className="container">
-                    <div className="hero-content">
+                    <motion.div
+                        className="hero-content"
+                        variants={containerVariants}
+                        initial="hidden"
+                        animate="visible"
+                    >
                         {profile.image && (
-                            <div className="hero-img-wrapper animate-element delay-1">
+                            <motion.div className="hero-img-wrapper" variants={itemVariants}>
+                                <div className="hero-img-ring" />
                                 <img
-                                    src={profile.image.startsWith('http') ? profile.image : `http://localhost:3004${profile.image}`}
+                                    src={imageUrl}
                                     alt={profile.name}
                                     className="hero-profile-img"
                                 />
-                            </div>
+                            </motion.div>
                         )}
                         <div className="hero-text-content">
-                            {profile.name && <h2 className="hero-greeting animate-element delay-2">Hi, my name is</h2>}
-                            {profile.name && <h1 className="hero-name animate-element delay-3">{profile.name}.</h1>}
-                            <h2 className="hero-title animate-element delay-4">{profile.title || "Backend Engineer"}</h2>
-
-                            {/* <div className="hero-cta-buttons animate-element delay-5"> */}
-                            {/* <a href="#projects" className="btn btn-primary">View Projects</a> */}
-                            {/* <a href="#contact" className="btn btn-secondary">Contact Me</a> */}
-                            {profile.resume && (
-                                <a href={profile.resume.startsWith('http') ? profile.resume : `http://localhost:3004${profile.resume}`} target="_blank" rel="noreferrer" className="btn btn-outline">Download CV</a>
+                            {profile.name && (
+                                <motion.h2 className="hero-greeting" variants={itemVariants}>
+                                    Hi, my name is
+                                </motion.h2>
                             )}
-                            {/* </div> */}
+                            {profile.name && (
+                                <motion.h1 className="hero-name" variants={itemVariants}>
+                                    {profile.name}.
+                                </motion.h1>
+                            )}
+                            <motion.h2 className="hero-title" variants={itemVariants}>
+                                {profile.title || "Backend Engineer"}
+                            </motion.h2>
 
-                            <div className="social-links-hero animate-element delay-6">
-                                {profile.socialLinks?.github && (
-                                    <a href={profile.socialLinks.github} target="_blank" rel="noreferrer" className="social-btn" aria-label="GitHub">
-                                        <Github size={24} />
+                            {profile.resume && (
+                                <motion.div variants={itemVariants}>
+                                    <a
+                                        href={resumeUrl}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="btn btn-outline hero-cv-btn"
+                                    >
+                                        Download CV
                                     </a>
+                                </motion.div>
+                            )}
+
+                            <motion.div className="social-links-hero" variants={itemVariants}>
+                                {profile.socialLinks?.github && (
+                                    <motion.a
+                                        href={profile.socialLinks.github}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="social-btn"
+                                        aria-label="GitHub"
+                                        whileHover={{ y: -5, scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <Github size={22} />
+                                    </motion.a>
                                 )}
                                 {profile.socialLinks?.linkedin && (
-                                    <a href={profile.socialLinks.linkedin} target="_blank" rel="noreferrer" className="social-btn" aria-label="LinkedIn">
-                                        <Linkedin size={24} />
-                                    </a>
+                                    <motion.a
+                                        href={profile.socialLinks.linkedin}
+                                        target="_blank"
+                                        rel="noreferrer"
+                                        className="social-btn"
+                                        aria-label="LinkedIn"
+                                        whileHover={{ y: -5, scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <Linkedin size={22} />
+                                    </motion.a>
                                 )}
                                 {profile.email && (
-                                    <a href={`mailto:${profile.email}`} className="social-btn" aria-label="Email">
-                                        <Mail size={24} />
-                                    </a>
+                                    <motion.a
+                                        href={`mailto:${profile.email}`}
+                                        className="social-btn"
+                                        aria-label="Email"
+                                        whileHover={{ y: -5, scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <Mail size={22} />
+                                    </motion.a>
                                 )}
-                            </div>
+                            </motion.div>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
 
-                {/* --- Tech Ticker (Marquee) --- */}
-                {profile.skills && profile.skills.length > 0 && (
-                    <div className="tech-ticker-container animate-element delay-6">
-                        <div className="tech-ticker-scroll">
-                            {/* Duplicate the list twice for seamless infinite scrolling */}
-                            {[1, 2].map((_, idx) => (
-                                <div key={idx} className="tech-ticker-track">
-                                    {profile.skills.flatMap((cat: any) => cat.items || []).map((skill: string, i: number) => (
-                                        <span key={`${idx}-${i}`} className="ticker-item">
-                                            <span className="ticker-dot"></span>
-                                            {skill}
-                                        </span>
-                                    ))}
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                <motion.button
+                    className="scroll-indicator"
+                    onClick={scrollToAbout}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 0.7 }}
+                    transition={{ delay: 1.2, duration: 0.6 }}
+                    whileHover={{ opacity: 1 }}
+                    aria-label="Scroll to about section"
+                >
+                    <span>Scroll</span>
+                    <ChevronDown size={20} className="scroll-indicator__chevron" />
+                </motion.button>
             </section>
 
             <style>{`
             .hero {
-                min-height: 80vh;
+                min-height: calc(100vh - var(--header-height));
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                position: relative;
             }
 
             .hero-content {
                 display: flex;
                 align-items: center;
-                gap: 60px;
+                gap: clamp(24px, 5vw, 60px);
             }
-
-            /* --- Animations --- */
-            .animate-element {
-                opacity: 0;
-                transform: translateY(30px);
-                animation: smoothSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-            }
-
-            .delay-1 { animation-delay: 0.1s; }
-            .delay-2 { animation-delay: 0.2s; }
-            .delay-3 { animation-delay: 0.3s; }
-            .delay-4 { animation-delay: 0.4s; }
-            .delay-5 { animation-delay: 0.5s; }
-            .delay-6 { animation-delay: 0.6s; }
-
-            @keyframes smoothSlideUp {
-                0% {
-                    opacity: 0;
-                    transform: translateY(30px);
-                }
-                100% {
-                    opacity: 1;
-                    transform: translateY(0);
-                }
-            }
-            /* ------------------ */
 
             .hero-text-content {
                 display: flex;
@@ -144,155 +201,129 @@ const Home = () => {
 
             .hero-greeting {
                 color: var(--primary-color);
-                font-size: 1.2rem;
-                margin-bottom: 1rem;
+                font-size: clamp(1rem, 2vw, 1.2rem);
+                margin-bottom: 0.75rem;
                 font-weight: 400;
                 font-family: var(--font-mono);
             }
 
-            .hero-profile-img {
-                width: 280px;
-                height: 280px;
-                border-radius: 50%;
-                object-fit: cover;
-                border: 4px solid var(--primary-color);
-                box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.3);
-                transition: transform 0.5s ease, box-shadow 0.5s ease;
+            .hero-img-wrapper {
+                position: relative;
+                flex-shrink: 0;
             }
 
-            .hero-profile-img:hover {
-                transform: scale(1.05);
-                box-shadow: 0 15px 40px -10px rgba(59, 130, 246, 0.6);
+            .hero-img-ring {
+                position: absolute;
+                inset: -8px;
+                border-radius: 50%;
+                border: 2px solid rgba(16, 185, 129, 0.2);
+                animation: pulseGlow 3s ease-in-out infinite;
             }
+
+            .hero-profile-img {
+                width: clamp(180px, 28vw, 280px);
+                height: clamp(180px, 28vw, 280px);
+                border-radius: 50%;
+                object-fit: cover;
+                border: 3px solid var(--primary-color);
+                box-shadow: 0 10px 40px -10px var(--primary-glow);
+                transition: transform 0.5s var(--ease-out-expo), box-shadow 0.5s ease;
+                position: relative;
+                z-index: 1;
+            }
+
+            .hero-img-wrapper:hover .hero-profile-img {
+                transform: scale(1.03);
+                box-shadow: 0 20px 50px -10px var(--primary-glow);
+            }
+
+            .hero-name {
+                font-size: clamp(36px, 7vw, 72px);
+                font-weight: 800;
+                color: var(--text-heading);
+                line-height: 1.05;
+                margin-bottom: 12px;
+                letter-spacing: -1.5px;
+                background: linear-gradient(135deg, var(--text-heading) 0%, var(--text-primary) 100%);
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+
+            .hero-title {
+                font-size: clamp(20px, 3.5vw, 36px);
+                font-weight: 600;
+                color: var(--text-secondary);
+                line-height: 1.3;
+                margin-bottom: 2rem;
+                max-width: 600px;
+            }
+
+            .hero-cv-btn {
+                margin-bottom: 2rem;
+            }
+
+            .btn-outline:hover {
+                background: rgba(16, 185, 129, 0.2);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px var(--primary-glow);
+            }
+
+            .social-links-hero {
+                display: flex;
+                gap: 16px;
+                flex-wrap: wrap;
+            }
+
+            .scroll-indicator {
+                position: absolute;
+                bottom: 2rem;
+                left: 50%;
+                transform: translateX(-50%);
+                background: none;
+                border: none;
+            }
+
+            .hero-skeleton {
+                gap: 40px;
+            }
+
+            .hero-skeleton__img {
+                width: 240px;
+                height: 240px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+
+            .hero-skeleton__text {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 16px;
+                max-width: 500px;
+            }
+
+            .hero-skeleton__line {
+                height: 20px;
+            }
+
+            .hero-skeleton__line--sm { width: 40%; height: 16px; }
+            .hero-skeleton__line--lg { width: 80%; height: 48px; }
+            .hero-skeleton__line--md { width: 60%; height: 28px; }
 
             @media (max-width: 768px) {
                 .hero-content {
                     flex-direction: column;
                     text-align: center;
-                    gap: 30px;
                 }
                 .hero-text-content {
                     align-items: center;
                 }
-                .hero-profile-img {
-                    width: 200px;
-                    height: 200px;
+                .social-links-hero {
+                    justify-content: center;
                 }
-            }
-
-            .hero-name {
-                font-size: clamp(40px, 8vw, 80px);
-                font-weight: 800;
-                color: var(--text-heading);
-                line-height: 1.1;
-                margin-bottom: 15px;
-                letter-spacing: -1.5px;
-            }
-
-            .hero-title {
-                font-size: clamp(24px, 4vw, 40px);
-                font-weight: 700;
-                color: var(--text-secondary);
-                line-height: 1.2;
-                margin-bottom: 2.5rem;
-                max-width: 700px;
-            }
-
-            .hero-cta-buttons {
-                display: flex;
-                gap: 20px;
-                margin-bottom: 2.5rem;
-                flex-wrap: wrap;
-            }
-
-            .btn-primary {
-                background: rgba(59, 130, 246, 0.1);
-                color: var(--primary-color);
-                border: 1px solid var(--primary-color);
-            }
-
-            .btn-secondary {
-                background: rgba(255, 255, 255, 0.05);
-                color: var(--text-primary);
-                border: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .btn-secondary:hover {
-                background: rgba(255, 255, 255, 0.1);
-                border-color: rgba(255, 255, 255, 0.2);
-                color: #fff;
-            }
-
-            .social-links-hero {
-                display: flex;
-                gap: 20px;
-            }
-
-            /* --- Tech Ticker Styles --- */
-            .tech-ticker-container {
-                width: 100%;
-                overflow: hidden;
-                background: rgba(17, 24, 39, 0.6);
-                border-top: 1px solid rgba(59, 130, 246, 0.1);
-                border-bottom: 1px solid rgba(59, 130, 246, 0.1);
-                padding: 1rem 0;
-                margin-top: 4rem; /* Gap between hero content and ticker */
-                position: absolute;
-                bottom: 0px;
-                left: 0;
-                backdrop-filter: blur(10px);
-            }
-
-            .tech-ticker-scroll {
-                display: flex;
-                width: max-content;
-                animation: scrollTicker 40s linear infinite;
-            }
-
-            .tech-ticker-scroll:hover {
-                animation-play-state: paused;
-            }
-
-            .tech-ticker-track {
-                display: flex;
-                align-items: center;
-                gap: 3rem;
-                padding-right: 3rem; /* Same as gap */
-            }
-
-            .ticker-item {
-                display: flex;
-                align-items: center;
-                gap: 0.75rem;
-                color: var(--text-secondary);
-                font-family: var(--font-mono);
-                font-size: 1rem;
-                white-space: nowrap;
-                text-transform: uppercase;
-                letter-spacing: 1px;
-            }
-
-            .ticker-dot {
-                width: 6px;
-                height: 6px;
-                background-color: var(--primary-color);
-                border-radius: 50%;
-                box-shadow: 0 0 10px var(--primary-color);
-            }
-
-            @keyframes scrollTicker {
-                0% {
-                    transform: translateX(0);
-                }
-                100% {
-                    transform: translateX(-50%);
-                }
-            }
-
-            @media (max-width: 768px) {
-                .tech-ticker-container {
-                    position: relative;
-                    margin-top: 2rem;
+                .scroll-indicator {
+                    bottom: 1rem;
                 }
             }
         `}</style>
