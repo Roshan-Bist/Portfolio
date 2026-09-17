@@ -5,10 +5,13 @@ import App from './App.js' // .tsx files can be imported with .js in Vite
 import './index.css'
 import 'sonner/dist/styles.css'
 import axios from 'axios'
+import { API_URL } from './config/api'
 
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
+
+axios.defaults.baseURL = API_URL;
 
 // Setup axios interceptor to attach token to all requests
 axios.interceptors.request.use((config) => {

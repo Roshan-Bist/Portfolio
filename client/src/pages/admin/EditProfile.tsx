@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Save, Plus, Trash } from 'lucide-react';
+import { assetUrl } from '../../config/api';
 
 const EditProfile = () => {
     const [formData, setFormData] = useState<any>({
@@ -189,7 +190,7 @@ const EditProfile = () => {
                     <div className="profile-image-section">
                         <div className="image-preview">
                             {formData.image ? (
-                                <img src={formData.image.startsWith('http') ? formData.image : `http://localhost:3004${formData.image}`} alt="Profile" />
+                                <img src={assetUrl(formData.image)} alt="Profile" />
                             ) : (
                                 <div className="placeholder-img">No Image</div>
                             )}

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
 import { motion } from 'motion/react';
 import axios from 'axios';
+import { assetUrl } from '../config/api';
 
 const Home = () => {
     const [profile, setProfile] = useState<any>(null);
@@ -48,13 +49,8 @@ const Home = () => {
         );
     }
 
-    const imageUrl = profile.image?.startsWith('http')
-        ? profile.image
-        : `http://localhost:3004${profile.image}`;
-
-    const resumeUrl = profile.resume?.startsWith('http')
-        ? profile.resume
-        : `http://localhost:3004${profile.resume}`;
+    const imageUrl = assetUrl(profile.image);
+    const resumeUrl = assetUrl(profile.resume);
 
     const containerVariants = {
         hidden: { opacity: 0 },
