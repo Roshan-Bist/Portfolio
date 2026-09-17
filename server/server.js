@@ -8,6 +8,7 @@ const connectDB = require("./Database/connectDb");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const articleRoutes = require("./routes/articleRoutes");
+const cors = require('cors');
 
 app.use(express.json());
 
@@ -24,6 +25,9 @@ app.get(/.*/, (req, res) => {
     res.sendFile(path.join(__dirname, "../client/dist/index.html"));
 });
 
+app.use(cors({
+    origin: "https://your-frontend.vercel.app" // add this after step 4
+  }));
 
 connectDB();
 
