@@ -125,7 +125,7 @@ const Header = () => {
           top: 0;
           left: 0;
           width: 100%;
-          background: rgba(6, 78, 59, 0.75);
+          background: rgba(11, 18, 32, 0.8);
           backdrop-filter: blur(12px);
           -webkit-backdrop-filter: blur(12px);
           z-index: 1000;
@@ -138,8 +138,8 @@ const Header = () => {
 
         .header--scrolled {
           height: calc(var(--header-height) - 8px);
-          background: rgba(6, 78, 59, 0.92);
-          border-bottom-color: rgba(16, 185, 129, 0.12);
+          background: rgba(11, 18, 32, 0.94);
+          border-bottom-color: rgba(var(--primary-rgb), 0.12);
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
         }
 
@@ -189,7 +189,7 @@ const Header = () => {
 
         .nav-link:hover {
           color: var(--text-heading);
-          background: rgba(16, 185, 129, 0.08);
+          background: rgba(var(--primary-rgb), 0.08);
         }
 
         .nav-link--active {
@@ -217,7 +217,7 @@ const Header = () => {
         }
 
         .menu-toggle:hover {
-          background: rgba(16, 185, 129, 0.1);
+          background: rgba(var(--primary-rgb), 0.1);
         }
 
         .nav-backdrop {

@@ -436,13 +436,13 @@ const ArticleStyles = () => (
             left: 0;
             right: 0;
             height: 3px;
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(var(--primary-rgb), 0.1);
             z-index: 100;
         }
 
         .article-progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), #06b6d4);
+            background: linear-gradient(90deg, var(--primary-color), #38BDF8);
             box-shadow: 0 0 12px var(--primary-glow);
             transition: width 0.1s linear;
         }
@@ -453,7 +453,7 @@ const ArticleStyles = () => (
             left: 0;
             right: 0;
             z-index: 99;
-            background: rgba(6, 78, 59, 0.92);
+            background: rgba(11, 18, 32, 0.92);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid var(--glass-border);
@@ -481,7 +481,7 @@ const ArticleStyles = () => (
         }
 
         .article-sticky-bar__back:hover {
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(var(--primary-rgb), 0.12);
             color: var(--primary-color);
         }
 
@@ -535,15 +535,15 @@ const ArticleStyles = () => (
             font-size: 0.875rem;
             font-weight: 500;
             color: var(--text-secondary);
-            background: rgba(16, 185, 129, 0.08);
+            background: rgba(var(--primary-rgb), 0.08);
             border: 1px solid var(--glass-border);
             transition: var(--transition);
         }
 
         .article-back-btn:hover {
             color: var(--text-heading);
-            border-color: rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(var(--primary-rgb), 0.35);
+            background: rgba(var(--primary-rgb), 0.15);
             transform: translateX(-2px);
         }
 
@@ -565,20 +565,20 @@ const ArticleStyles = () => (
             height: 42px;
             border-radius: 50%;
             color: var(--text-secondary);
-            background: rgba(16, 185, 129, 0.08);
+            background: rgba(var(--primary-rgb), 0.08);
             border: 1px solid var(--glass-border);
             transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
         }
 
         .article-action-btn:hover {
             color: var(--primary-color);
-            border-color: rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.15);
+            border-color: rgba(var(--primary-rgb), 0.35);
+            background: rgba(var(--primary-rgb), 0.15);
         }
 
         .article-action-btn--active {
             color: var(--primary-color);
-            background: rgba(16, 185, 129, 0.2);
+            background: rgba(var(--primary-rgb), 0.2);
             border-color: var(--primary-color);
         }
 
@@ -608,7 +608,7 @@ const ArticleStyles = () => (
         }
 
         .article-share-menu__item:hover {
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(var(--primary-rgb), 0.12);
             color: var(--primary-color);
         }
 
@@ -621,8 +621,8 @@ const ArticleStyles = () => (
             display: inline-block;
             padding: 6px 16px;
             border-radius: 999px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(var(--primary-rgb), 0.3);
+            background: rgba(var(--primary-rgb), 0.1);
             color: var(--primary-color);
             font-size: 0.7rem;
             font-weight: 700;
@@ -669,7 +669,7 @@ const ArticleStyles = () => (
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: rgba(16, 185, 129, 0.3);
+            background: rgba(var(--primary-rgb), 0.3);
         }
 
         .article-hero-image {
@@ -746,7 +746,7 @@ const ArticleStyles = () => (
 
         .article-reading-ring__bg {
             fill: none;
-            stroke: rgba(16, 185, 129, 0.15);
+            stroke: rgba(var(--primary-rgb), 0.15);
             stroke-width: 2.5;
         }
 

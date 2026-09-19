@@ -271,15 +271,15 @@ const DashboardStyles = () => (
             font-weight: 500;
             color: var(--text-secondary);
             border: 1px solid var(--glass-border);
-            background: rgba(16, 185, 129, 0.06);
+            background: rgba(var(--primary-rgb), 0.06);
             transition: var(--transition);
             flex-shrink: 0;
         }
 
         .dashboard-view-site:hover {
             color: var(--primary-color);
-            border-color: rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.12);
+            border-color: rgba(var(--primary-rgb), 0.35);
+            background: rgba(var(--primary-rgb), 0.12);
         }
 
         .dashboard-stats {
@@ -300,8 +300,8 @@ const DashboardStyles = () => (
 
         .dashboard-stat:hover {
             transform: translateY(-3px);
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: 0 12px 32px rgba(16, 185, 129, 0.1);
+            border-color: rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 12px 32px rgba(var(--primary-rgb), 0.1);
         }
 
         .dashboard-stat__icon-wrap {
@@ -315,7 +315,7 @@ const DashboardStyles = () => (
         }
 
         .dashboard-stat--emerald .dashboard-stat__icon-wrap {
-            background: rgba(16, 185, 129, 0.15);
+            background: rgba(var(--primary-rgb), 0.15);
             color: var(--primary-color);
         }
 
@@ -405,17 +405,17 @@ const DashboardStyles = () => (
         }
 
         .dashboard-action-card:hover {
-            background: rgba(16, 185, 129, 0.08);
+            background: rgba(var(--primary-rgb), 0.08);
             border-color: var(--glass-border);
         }
 
         .dashboard-action-card--cta {
-            border: 1px dashed rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.05);
+            border: 1px dashed rgba(var(--primary-rgb), 0.35);
+            background: rgba(var(--primary-rgb), 0.05);
         }
 
         .dashboard-action-card--cta:hover {
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(var(--primary-rgb), 0.12);
             border-color: var(--primary-color);
         }
 
@@ -426,7 +426,7 @@ const DashboardStyles = () => (
             width: 40px;
             height: 40px;
             border-radius: 8px;
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(var(--primary-rgb), 0.12);
             color: var(--primary-color);
             flex-shrink: 0;
         }
@@ -478,7 +478,7 @@ const DashboardStyles = () => (
         }
 
         .dashboard-recent-item:hover {
-            background: rgba(16, 185, 129, 0.06);
+            background: rgba(var(--primary-rgb), 0.06);
         }
 
         .dashboard-recent-item__main {
@@ -510,13 +510,13 @@ const DashboardStyles = () => (
             color: var(--primary-color);
             padding: 0.35rem 0.75rem;
             border-radius: 6px;
-            border: 1px solid rgba(16, 185, 129, 0.25);
+            border: 1px solid rgba(var(--primary-rgb), 0.25);
             flex-shrink: 0;
             transition: var(--transition);
         }
 
         .dashboard-recent-item__edit:hover {
-            background: rgba(16, 185, 129, 0.12);
+            background: rgba(var(--primary-rgb), 0.12);
         }
 
         .dashboard-empty {

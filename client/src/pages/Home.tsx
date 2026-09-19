@@ -212,7 +212,7 @@ const Home = () => {
                 position: absolute;
                 inset: -8px;
                 border-radius: 50%;
-                border: 2px solid rgba(16, 185, 129, 0.2);
+                border: 2px solid rgba(var(--primary-rgb), 0.2);
                 animation: pulseGlow 3s ease-in-out infinite;
             }
 
@@ -260,7 +260,7 @@ const Home = () => {
             }
 
             .btn-outline:hover {
-                background: rgba(16, 185, 129, 0.2);
+                background: rgba(var(--primary-rgb), 0.2);
                 transform: translateY(-2px);
                 box-shadow: 0 8px 24px var(--primary-glow);
             }

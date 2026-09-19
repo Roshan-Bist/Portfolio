@@ -1,27 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
 :root {
-  /* Accent Colors */
-  --primary-color: #10B981;
-  --primary-glow: rgba(16, 185, 129, 0.35);
+  /* Accent Colors — cyan (backend / terminal) */
+  --primary-color: #22D3EE;
+  --primary-rgb: 34, 211, 238;
+  --primary-glow: rgba(34, 211, 238, 0.35);
 
-  /* Background Colors */
-  --bg-primary: #064E3B;
-  --bg-secondary: #065F46;
-  --bg-overlay: rgba(6, 78, 59, 0.95);
-  --bg-light: #065F46;
-  --glass-bg: rgba(6, 95, 70, 0.7);
-  --glass-border: rgba(16, 185, 129, 0.2);
+  /* Background Colors — deep slate navy */
+  --bg-primary: #0B1220;
+  --bg-secondary: #111827;
+  --bg-overlay: rgba(11, 18, 32, 0.92);
+  --bg-light: #1F2937;
+  --glass-bg: rgba(17, 24, 39, 0.75);
+  --glass-border: rgba(34, 211, 238, 0.18);
 
   /* Text Colors */
-  --text-heading: #ECFDF5;
-  --text-title: #D1FAE5;
-  --text-primary: #A7F3D0;
-  --text-secondary: #6EE7B7;
+  --text-heading: #F8FAFC;
+  --text-title: #E2E8F0;
+  --text-primary: #CBD5E1;
+  --text-secondary: #94A3B8;
 
   /* Typography */
-  --font-main: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'Fira Code', 'Menlo', 'Monaco', 'Courier New', monospace;
+  --font-main: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', 'Menlo', 'Monaco', 'Courier New', monospace;
 
   --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -37,11 +38,11 @@
 body {
   font-family: var(--font-main);
   background-color: var(--bg-primary);
-  /* Subtle organic grid pattern */
+  /* Subtle terminal grid */
   background-image:
-    linear-gradient(rgba(16, 185, 129, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(16, 185, 129, 0.05) 1px, transparent 1px);
-  background-size: 30px 30px;
+    linear-gradient(rgba(var(--primary-rgb), 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--primary-rgb), 0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 1.05rem;
@@ -141,15 +142,15 @@ button {
   border-radius: 4px;
   color: var(--primary-color);
   font-size: 1rem;
-  background: rgba(16, 185, 129, 0.1);
+  background: rgba(var(--primary-rgb), 0.1);
   transition: var(--transition);
   backdrop-filter: blur(5px);
 }
 
 .btn:hover {
-  background: rgba(16, 185, 129, 0.2);
+  background: rgba(var(--primary-rgb), 0.2);
   transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 20px rgba(var(--primary-rgb), 0.2);
 }
 
 .heading {
@@ -228,7 +229,7 @@ code {
   transform: translateY(-5px) scale(1.05);
   border-color: var(--primary-color);
   color: var(--primary-color);
-  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.15);
+  box-shadow: 0 10px 20px rgba(var(--primary-rgb), 0.15);
 }
 
 .social-btn:active {
@@ -255,7 +256,7 @@ code {
 .ambient-orb--1 {
   width: 400px;
   height: 400px;
-  background: rgba(16, 185, 129, 0.15);
+  background: rgba(var(--primary-rgb), 0.15);
   top: -10%;
   right: -5%;
   animation-delay: 0s;
@@ -264,7 +265,7 @@ code {
 .ambient-orb--2 {
   width: 350px;
   height: 350px;
-  background: rgba(6, 182, 212, 0.1);
+  background: rgba(56, 189, 248, 0.1);
   bottom: 20%;
   left: -10%;
   animation-delay: -7s;
@@ -273,7 +274,7 @@ code {
 .ambient-orb--3 {
   width: 250px;
   height: 250px;
-  background: rgba(16, 185, 129, 0.08);
+  background: rgba(var(--primary-rgb), 0.08);
   top: 50%;
   left: 50%;
   animation-delay: -14s;
@@ -309,9 +310,9 @@ code {
 .skeleton {
   background: linear-gradient(
     90deg,
-    rgba(16, 185, 129, 0.08) 25%,
-    rgba(16, 185, 129, 0.18) 50%,
-    rgba(16, 185, 129, 0.08) 75%
+    rgba(var(--primary-rgb), 0.08) 25%,
+    rgba(var(--primary-rgb), 0.18) 50%,
+    rgba(var(--primary-rgb), 0.08) 75%
   );
   background-size: 200% 100%;
   animation: shimmer 1.5s ease-in-out infinite;

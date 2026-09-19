@@ -12,7 +12,11 @@ exports.login = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-        const token = jwt.sign({ id: auth._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign(
+            { id: auth._id },
+            (process.env.JWT_SECRET || "").trim(),
+            { expiresIn: "7d" }
+        );
         const user = { id: auth._id, email: auth.email };
         res.status(200).json({ message: "Login successful", token, user });
     } catch (error) {

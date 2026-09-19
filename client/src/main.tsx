@@ -22,6 +22,22 @@ axios.interceptors.request.use((config) => {
   return config;
 });
 
+axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const status = error?.response?.status;
+    const code = error?.response?.data?.code;
+    if (status === 403 && (code === 'TOKEN_EXPIRED' || code === 'TOKEN_INVALID')) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      if (!window.location.pathname.includes('/admin/login')) {
+        window.location.href = '/admin/login';
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>

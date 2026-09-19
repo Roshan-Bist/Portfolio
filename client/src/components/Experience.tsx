@@ -86,7 +86,7 @@ const Experience = () => {
                  content: '';
                  position: absolute;
                  width: 2px;
-                 background: linear-gradient(to bottom, var(--primary-color), rgba(16, 185, 129, 0.1));
+                 background: linear-gradient(to bottom, var(--primary-color), rgba(var(--primary-rgb), 0.1));
                  top: 0;
                  bottom: 0;
                  left: 20px;
@@ -134,7 +134,7 @@ const Experience = () => {
                  content: '';
                  position: absolute;
                  top: 0; left: 0; right: 0; bottom: 0;
-                 background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
+                 background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(6, 182, 212, 0.05) 100%);
                  opacity: 0;
                  transition: opacity 0.4s ease;
                  z-index: 0;
@@ -147,8 +147,8 @@ const Experience = () => {
     
              .timeline-content:hover {
                  transform: translateY(-6px);
-                 border-color: rgba(16, 185, 129, 0.3);
-                 box-shadow: 0 12px 40px rgba(16, 185, 129, 0.1);
+                 border-color: rgba(var(--primary-rgb), 0.3);
+                 box-shadow: 0 12px 40px rgba(var(--primary-rgb), 0.1);
              }
 
              @media (max-width: 768px) {

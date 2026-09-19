@@ -21,6 +21,7 @@ import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import EditProfile from './pages/admin/EditProfile';
 import ArticleManager from './pages/admin/ArticleManager';
+import { useProfileFavicon } from './hooks/useProfileFavicon';
 
 const Portfolio = () => (
   <div className="app-container">
@@ -50,6 +51,8 @@ const Portfolio = () => (
 );
 
 function App() {
+  useProfileFavicon();
+
   return (
     <AuthProvider>
       <Toaster position="bottom-center" richColors />

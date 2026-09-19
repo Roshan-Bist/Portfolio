@@ -21,6 +21,8 @@ const EditProfile = () => {
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
     const [uploadingImage, setUploadingImage] = useState(false);
+    const [imageUrlInput, setImageUrlInput] = useState('');
+    const [applyingImageUrl, setApplyingImageUrl] = useState(false);
     const [message, setMessage] = useState('');
 
     useEffect(() => {
@@ -125,18 +127,72 @@ const EditProfile = () => {
         try {
             const res = await axios.post(`/api/profile/${formData._id}/upload-image`, data, {
                 headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': localStorage.getItem('token') || ''
-                }
+                    Authorization: localStorage.getItem('token') || '',
+                },
             });
 
             setFormData({ ...formData, image: res.data.imageUrl });
             setMessage('Profile image uploaded successfully!');
-        } catch (error) {
+        } catch (error: any) {
             console.error("Error uploading image:", error);
-            setMessage('Failed to upload image.');
+            const status = error?.response?.status;
+            const serverMsg = error?.response?.data?.message;
+            if (status === 403 || status === 401) {
+                setMessage(serverMsg || 'Session expired. Please log in again.');
+            } else {
+                setMessage(serverMsg ? `Failed to upload image: ${serverMsg}` : 'Failed to upload image.');
+            }
         } finally {
             setUploadingImage(false);
+            e.target.value = '';
+        }
+    };
+
+    const handleImageUrlApply = async () => {
+        const url = imageUrlInput.trim();
+        if (!url) {
+            setMessage('Paste an image URL first.');
+            return;
+        }
+
+        try {
+            const parsed = new URL(url);
+            if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
+                setMessage('Image URL must start with http:// or https://');
+                return;
+            }
+        } catch {
+            setMessage('Please enter a valid image URL.');
+            return;
+        }
+
+        setApplyingImageUrl(true);
+        setMessage('');
+
+        try {
+            setFormData({ ...formData, image: url });
+
+            if (formData._id) {
+                const headers = {
+                    Authorization: localStorage.getItem('token') || '',
+                };
+                await axios.put(
+                    `/api/profile/${formData._id}`,
+                    { image: url },
+                    { headers }
+                );
+                setMessage('Profile image link saved successfully!');
+            } else {
+                setMessage('Image link applied. Save your profile to keep it.');
+            }
+
+            setImageUrlInput('');
+        } catch (error: any) {
+            console.error('Error saving image URL:', error);
+            const serverMsg = error?.response?.data?.message;
+            setMessage(serverMsg ? `Failed to save image link: ${serverMsg}` : 'Failed to save image link.');
+        } finally {
+            setApplyingImageUrl(false);
         }
     };
 
@@ -182,7 +238,11 @@ const EditProfile = () => {
     return (
         <div className="edit-profile">
             <h2 className="heading">Edit Profile</h2>
-            {message && <div className={`message ${message.includes('Failed') ? 'error' : 'success'}`}>{message}</div>}
+            {message && (
+                <div className={`message ${/fail|invalid|must|paste|enter/i.test(message) ? 'error' : 'success'}`}>
+                    {message}
+                </div>
+            )}
 
             <form onSubmit={handleSubmit}>
                 <div className="form-section">
@@ -198,8 +258,25 @@ const EditProfile = () => {
                         <div className="upload-controls">
                             <label className="btn-small upload-btn">
                                 {uploadingImage ? 'Uploading...' : 'Upload Image'}
-                                <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage} style={{ display: 'none' }} />
+                                <input type="file" accept="image/*" onChange={handleImageUpload} disabled={uploadingImage || applyingImageUrl} style={{ display: 'none' }} />
                             </label>
+                            <div className="image-url-row">
+                                <input
+                                    type="url"
+                                    placeholder="Paste image URL (https://...)"
+                                    value={imageUrlInput}
+                                    onChange={(e) => setImageUrlInput(e.target.value)}
+                                    disabled={applyingImageUrl || uploadingImage}
+                                />
+                                <button
+                                    type="button"
+                                    className="btn-small"
+                                    onClick={handleImageUrlApply}
+                                    disabled={applyingImageUrl || uploadingImage || !imageUrlInput.trim()}
+                                >
+                                    {applyingImageUrl ? 'Saving...' : 'Use link'}
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div className="form-group">
@@ -361,7 +438,7 @@ const EditProfile = () => {
 
             <style>{`
                 .form-section {
-                    background: rgba(17, 34, 64, 0.5);
+                    background: var(--glass-bg);
                     padding: 20px;
                     border-radius: 8px;
                     margin-bottom: 20px;
@@ -400,6 +477,31 @@ const EditProfile = () => {
                 }
                 .upload-btn {
                     cursor: pointer;
+                }
+                .upload-controls {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                    flex: 1;
+                    min-width: 0;
+                }
+                .image-url-row {
+                    display: flex;
+                    gap: 8px;
+                    align-items: center;
+                    width: 100%;
+                }
+                .image-url-row input {
+                    flex: 1;
+                    margin: 0;
+                }
+                .image-url-row .btn-small {
+                    flex-shrink: 0;
+                    white-space: nowrap;
+                }
+                .image-url-row .btn-small:disabled {
+                    opacity: 0.5;
+                    cursor: not-allowed;
                 }
                 .form-group {
                     margin-bottom: 15px;

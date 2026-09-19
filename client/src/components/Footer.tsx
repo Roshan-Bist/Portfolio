@@ -15,7 +15,7 @@ const Footer = () => {
             <style>{`
         .footer {
           padding: 2.5rem 0;
-          border-top: 1px solid rgba(16, 185, 129, 0.1);
+          border-top: 1px solid rgba(var(--primary-rgb), 0.1);
           text-align: center;
         }
 

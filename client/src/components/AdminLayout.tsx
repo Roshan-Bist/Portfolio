@@ -158,7 +158,7 @@ const AdminLayout = () => {
                     padding: 0.75rem;
                     margin-bottom: 1.25rem;
                     border-radius: 10px;
-                    background: rgba(16, 185, 129, 0.08);
+                    background: rgba(var(--primary-rgb), 0.08);
                     border: 1px solid var(--glass-border);
                 }
 
@@ -166,7 +166,7 @@ const AdminLayout = () => {
                     width: 36px;
                     height: 36px;
                     border-radius: 50%;
-                    background: rgba(16, 185, 129, 0.2);
+                    background: rgba(var(--primary-rgb), 0.2);
                     color: var(--primary-color);
                     font-weight: 700;
                     display: flex;
@@ -209,13 +209,13 @@ const AdminLayout = () => {
 
                 .admin-nav-link:hover {
                     color: var(--text-heading);
-                    background: rgba(16, 185, 129, 0.08);
+                    background: rgba(var(--primary-rgb), 0.08);
                 }
 
                 .admin-nav-link--active {
                     color: var(--primary-color);
-                    background: rgba(16, 185, 129, 0.12);
-                    border-color: rgba(16, 185, 129, 0.25);
+                    background: rgba(var(--primary-rgb), 0.12);
+                    border-color: rgba(var(--primary-rgb), 0.25);
                 }
 
                 .logout-btn {
@@ -251,7 +251,7 @@ const AdminLayout = () => {
                     gap: 12px;
                     padding: 0.875rem 1rem;
                     border-bottom: 1px solid var(--glass-border);
-                    background: rgba(6, 78, 59, 0.9);
+                    background: rgba(11, 18, 32, 0.9);
                     backdrop-filter: blur(10px);
                 }
 

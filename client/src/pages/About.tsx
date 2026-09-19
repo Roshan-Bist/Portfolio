@@ -80,7 +80,7 @@ const About = () => {
                 <style>{`
         .about-glass-panel {
           background: rgba(17, 24, 39, 0.4);
-          border: 1px solid rgba(16, 185, 129, 0.15);
+          border: 1px solid rgba(var(--primary-rgb), 0.15);
           border-radius: 12px;
           padding: 3rem;
           backdrop-filter: blur(10px);
@@ -133,7 +133,7 @@ const About = () => {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.05) 100%);
+            background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.1) 0%, rgba(56, 189, 248, 0.05) 100%);
             opacity: 0;
             transition: opacity 0.4s ease;
             z-index: 0;
@@ -146,7 +146,7 @@ const About = () => {
 
         .highlight-card:hover {
             transform: translateY(-8px) scale(1.02);
-            border-color: rgba(16, 185, 129, 0.3);
+            border-color: rgba(var(--primary-rgb), 0.3);
             box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
         }
 

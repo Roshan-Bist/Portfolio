@@ -71,8 +71,8 @@ const Contact = () => {
         }
 
         .contact-card:hover {
-            border-color: rgba(16, 185, 129, 0.35);
-            box-shadow: 0 20px 60px rgba(16, 185, 129, 0.1);
+            border-color: rgba(var(--primary-rgb), 0.35);
+            box-shadow: 0 20px 60px rgba(var(--primary-rgb), 0.1);
         }
 
         .contact-eyebrow {

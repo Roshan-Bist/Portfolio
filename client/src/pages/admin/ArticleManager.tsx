@@ -516,7 +516,7 @@ const ArticleManagerStyles = () => (
         }
 
         .am-btn--primary:hover:not(:disabled) {
-            background: #34d399;
+            background: var(--primary-color);
             box-shadow: 0 4px 20px var(--primary-glow);
             transform: translateY(-1px);
         }
@@ -529,8 +529,8 @@ const ArticleManagerStyles = () => (
 
         .am-btn--ghost:hover:not(:disabled) {
             color: var(--text-heading);
-            border-color: rgba(16, 185, 129, 0.35);
-            background: rgba(16, 185, 129, 0.08);
+            border-color: rgba(var(--primary-rgb), 0.35);
+            background: rgba(var(--primary-rgb), 0.08);
         }
 
         .am-btn--danger {
@@ -566,8 +566,8 @@ const ArticleManagerStyles = () => (
         }
 
         .am-card:hover {
-            border-color: rgba(16, 185, 129, 0.3);
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.08);
+            border-color: rgba(var(--primary-rgb), 0.3);
+            box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.08);
         }
 
         .am-card__thumb {
@@ -667,12 +667,12 @@ const ArticleManagerStyles = () => (
 
         .am-action-btn--edit {
             color: var(--primary-color);
-            background: rgba(16, 185, 129, 0.1);
-            border-color: rgba(16, 185, 129, 0.25);
+            background: rgba(var(--primary-rgb), 0.1);
+            border-color: rgba(var(--primary-rgb), 0.25);
         }
 
         .am-action-btn--edit:hover {
-            background: rgba(16, 185, 129, 0.18);
+            background: rgba(var(--primary-rgb), 0.18);
             transform: translateX(-2px);
         }
 
@@ -772,7 +772,7 @@ const ArticleManagerStyles = () => (
 
         .am-editor__close:hover {
             color: var(--text-heading);
-            background: rgba(16, 185, 129, 0.1);
+            background: rgba(var(--primary-rgb), 0.1);
         }
 
         .am-editor__form {
@@ -831,12 +831,12 @@ const ArticleManagerStyles = () => (
         .am-field textarea:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
         }
 
         .am-field input::placeholder,
         .am-field textarea::placeholder {
-            color: rgba(167, 243, 208, 0.35);
+            color: rgba(148, 163, 184, 0.45);
         }
 
         .am-input-icon {
@@ -890,7 +890,7 @@ const ArticleManagerStyles = () => (
             gap: 0.75rem;
             padding: 1rem 1.25rem;
             border-top: 1px solid var(--glass-border);
-            background: rgba(6, 78, 59, 0.5);
+            background: rgba(11, 18, 32, 0.5);
             flex-shrink: 0;
         }
 
@@ -997,7 +997,7 @@ const ArticleManagerStyles = () => (
         }
 
         .am-editor__scroll::-webkit-scrollbar-thumb {
-            background: rgba(16, 185, 129, 0.3);
+            background: rgba(var(--primary-rgb), 0.3);
             border-radius: 3px;
         }
     `}</style>

@@ -141,8 +141,8 @@ const Articles = () => {
                     display: inline-block;
                     padding: 6px 16px;
                     border-radius: 999px;
-                    border: 1px solid rgba(16, 185, 129, 0.3);
-                    background: rgba(16, 185, 129, 0.1);
+                    border: 1px solid rgba(var(--primary-rgb), 0.3);
+                    background: rgba(var(--primary-rgb), 0.1);
                     color: var(--primary-color);
                     font-size: 0.7rem;
                     font-weight: 700;
@@ -186,8 +186,8 @@ const Articles = () => {
 
                 .article-card:hover {
                     transform: translateY(-6px);
-                    border-color: rgba(16, 185, 129, 0.35);
-                    box-shadow: 0 20px 50px rgba(16, 185, 129, 0.12);
+                    border-color: rgba(var(--primary-rgb), 0.35);
+                    box-shadow: 0 20px 50px rgba(var(--primary-rgb), 0.12);
                 }
 
                 .article-card__image-wrap {
@@ -306,13 +306,13 @@ const Articles = () => {
                     font-size: 0.875rem;
                     font-weight: 600;
                     color: var(--primary-color);
-                    background: rgba(16, 185, 129, 0.1);
-                    border: 1px solid rgba(16, 185, 129, 0.2);
+                    background: rgba(var(--primary-rgb), 0.1);
+                    border: 1px solid rgba(var(--primary-rgb), 0.2);
                     transition: var(--transition);
                 }
 
                 .article-card__link:hover {
-                    background: rgba(16, 185, 129, 0.2);
+                    background: rgba(var(--primary-rgb), 0.2);
                     gap: 12px;
                 }
 
