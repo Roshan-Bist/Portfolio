@@ -32,6 +32,7 @@ const seedData = async () => {
             email: "admin@example.com",
             phone: "+1234567890",
             address: "Agricultural District",
+            image: "/uploads/image-1771971173338-501230229.jpg",
             bio: "Passionate Agronomist specializing in sustainable farming practices and crop optimization.",
             socialLinks: {
                 linkedin: "https://linkedin.com/in/roshanbist",

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Github, Linkedin, Mail, ChevronDown } from 'lucide-react';
 import { motion } from 'motion/react';
 import axios from 'axios';
-import { assetUrl } from '../config/api';
+import { assetUrl, profileImageUrl } from '../config/api';
 
 const Home = () => {
     const [profile, setProfile] = useState<any>(null);
@@ -49,7 +49,7 @@ const Home = () => {
         );
     }
 
-    const imageUrl = assetUrl(profile.image);
+    const imageUrl = profileImageUrl(profile.image);
     const resumeUrl = assetUrl(profile.resume);
 
     const containerVariants = {
@@ -79,16 +79,14 @@ const Home = () => {
                         initial="hidden"
                         animate="visible"
                     >
-                        {profile.image && (
-                            <motion.div className="hero-img-wrapper" variants={itemVariants}>
-                                <div className="hero-img-ring" />
-                                <img
-                                    src={imageUrl}
-                                    alt={profile.name}
-                                    className="hero-profile-img"
-                                />
-                            </motion.div>
-                        )}
+                        <motion.div className="hero-img-wrapper" variants={itemVariants}>
+                            <div className="hero-img-ring" />
+                            <img
+                                src={imageUrl}
+                                alt={profile.name}
+                                className="hero-profile-img"
+                            />
+                        </motion.div>
                         <div className="hero-text-content">
                             {profile.name && (
                                 <motion.h2 className="hero-greeting" variants={itemVariants}>

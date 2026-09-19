@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import axios from 'axios';
-import { assetUrl } from '../config/api';
+import { profileImageUrl } from '../config/api';
 
 function setFavicon(href: string) {
     const selectors = ["link[rel='icon']", "link[rel='shortcut icon']"];
@@ -12,7 +12,7 @@ function setFavicon(href: string) {
         document.head.appendChild(link);
     }
 
-    link.type = 'image/png';
+    link.type = 'image/jpeg';
     link.href = href;
 
     let apple = document.querySelector("link[rel='apple-touch-icon']") as HTMLLinkElement | null;
@@ -33,10 +33,13 @@ export function useProfileFavicon() {
             try {
                 const res = await axios.get('/api/profile');
                 const image = res.data?.[0]?.image;
-                if (!image || cancelled) return;
-                setFavicon(assetUrl(image));
+                if (cancelled) return;
+                setFavicon(profileImageUrl(image));
             } catch (error) {
                 console.error('Failed to set favicon from profile image:', error);
+                if (!cancelled) {
+                    setFavicon(profileImageUrl(null));
+                }
             }
         };
 

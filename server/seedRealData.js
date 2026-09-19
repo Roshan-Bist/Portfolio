@@ -18,6 +18,7 @@ const seedRealData = async () => {
             email: "madan.saud@example.com",
             phone: "+47 (Contact via Email)", // Placeholder as phone is required but wasn't provided perfectly
             address: "Stavanger, Norway",
+            image: "/uploads/image-1771971173338-501230229.jpg",
             bio: "I am a dedicated agriculture professional with a strong foundation in modern farming practices, sustainable agriculture, and crop management. Passionate about empowering rural communities and leveraging modern technologies for high-yield, eco-friendly farming solutions.",
             highlights: [
                 "Research into sustainable crop management",
