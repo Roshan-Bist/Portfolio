@@ -1,0 +1,57 @@
+[{
+  "_id": {
+    "$oid": "6a4d6e67dd18ce9d5cebf512"
+  },
+  "title": "Real-Time Chat API",
+  "description": "Scalable Node.js backend with WebSocket support, JWT authentication, and MongoDB for persistent messaging.",
+  "image": "https://images.unsplash.com/photo-1616469829941-018a8c2ee993?w=800&auto=format&fit=crop",
+  "link": "https://github.com/roshanbist",
+  "project_status": "completed",
+  "github": "https://github.com/roshanbist",
+  "public": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-07T21:23:51.689Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-07T21:23:51.689Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a4d6e67dd18ce9d5cebf513"
+  },
+  "title": "Subscription Payment Platform",
+  "description": "Backend service handling subscription billing, secure payment webhooks, and user access control.",
+  "image": "https://images.unsplash.com/photo-1556740758-90de374c12ad?w=800&auto=format&fit=crop",
+  "link": "https://github.com/roshanbist",
+  "project_status": "completed",
+  "github": "https://github.com/roshanbist",
+  "public": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-07T21:23:51.689Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-07T21:23:51.689Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6a4d6e67dd18ce9d5cebf514"
+  },
+  "title": "Portfolio CMS",
+  "description": "Full-stack portfolio with admin dashboard, profile management, and REST API built with MERN stack.",
+  "image": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&auto=format&fit=crop",
+  "link": "https://github.com/roshanbist",
+  "project_status": "in-progress",
+  "github": "https://github.com/roshanbist",
+  "public": true,
+  "__v": 0,
+  "createdAt": {
+    "$date": "2026-07-07T21:23:51.689Z"
+  },
+  "updatedAt": {
+    "$date": "2026-07-07T21:23:51.689Z"
+  }
+}]

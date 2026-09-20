@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { LogOut, User, LayoutDashboard, FileText, Menu, X } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, FolderKanban, Menu, X } from 'lucide-react';
 
 const AdminLayout = () => {
     const { logout, user } = useAuth();
@@ -16,7 +16,7 @@ const AdminLayout = () => {
     const navItems = [
         { to: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard, end: true },
         { to: '/admin/profile', label: 'Edit Profile', icon: User },
-        { to: '/admin/articles', label: 'Articles', icon: FileText },
+        { to: '/admin/projects', label: 'Projects', icon: FolderKanban },
     ];
 
     const closeSidebar = () => setSidebarOpen(false);

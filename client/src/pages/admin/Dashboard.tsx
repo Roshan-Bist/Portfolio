@@ -2,53 +2,53 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-    FileText, Briefcase, Sparkles, ArrowRight, UserPen, Plus,
+    FolderKanban, Briefcase, Sparkles, ArrowRight, UserPen, Plus,
     ExternalLink, Clock,
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 interface DashboardStats {
-    articles: number;
+    projects: number;
     experience: number;
     highlights: number;
 }
 
-interface RecentArticle {
+interface RecentProject {
     _id: string;
     title: string;
-    author: string;
+    project_status: string;
     createdAt: string;
 }
 
 const Dashboard = () => {
     const { user } = useAuth();
     const [stats, setStats] = useState<DashboardStats>({
-        articles: 0,
+        projects: 0,
         experience: 0,
         highlights: 0,
     });
-    const [recentArticles, setRecentArticles] = useState<RecentArticle[]>([]);
+    const [recentProjects, setRecentProjects] = useState<RecentProject[]>([]);
     const [profileName, setProfileName] = useState('');
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                const [profileRes, articlesRes] = await Promise.all([
+                const [profileRes, projectsRes] = await Promise.all([
                     axios.get('/api/profile'),
-                    axios.get('/api/articles'),
+                    axios.get('/api/projects?all=true'),
                 ]);
 
                 const profile = profileRes.data?.[0] || {};
-                const articles: RecentArticle[] = articlesRes.data?.articles || [];
+                const projects: RecentProject[] = projectsRes.data?.projects || [];
 
                 setProfileName(profile.name || user?.name || 'Admin');
                 setStats({
-                    articles: articles.length,
+                    projects: projects.length,
                     experience: profile.experience?.length || 0,
                     highlights: profile.highlights?.length || 0,
                 });
-                setRecentArticles(articles.slice(0, 4));
+                setRecentProjects(projects.slice(0, 4));
             } catch (error) {
                 console.error('Error fetching dashboard stats:', error);
             } finally {
@@ -66,9 +66,9 @@ const Dashboard = () => {
 
     const statCards = [
         {
-            label: 'Published Articles',
-            value: stats.articles,
-            icon: FileText,
+            label: 'Projects',
+            value: stats.projects,
+            icon: FolderKanban,
             accent: 'emerald',
         },
         {
@@ -87,10 +87,10 @@ const Dashboard = () => {
 
     const quickActions = [
         {
-            title: 'Manage Articles',
-            description: 'Create, edit, or remove published articles.',
-            to: '/admin/articles',
-            icon: FileText,
+            title: 'Manage Projects',
+            description: 'Create, edit, or remove portfolio projects.',
+            to: '/admin/projects',
+            icon: FolderKanban,
         },
         {
             title: 'Edit Profile',
@@ -122,7 +122,7 @@ const Dashboard = () => {
                     <p className="dashboard-eyebrow">Admin Dashboard</p>
                     <h1 className="dashboard-title">Welcome back, {profileName}</h1>
                     <p className="dashboard-subtitle">
-                        Manage your portfolio content, articles, and profile from one place.
+                        Manage your portfolio projects and profile from one place.
                     </p>
                 </div>
                 <a href="/" target="_blank" rel="noopener noreferrer" className="dashboard-view-site">
@@ -163,13 +163,13 @@ const Dashboard = () => {
                                 <ArrowRight size={18} className="dashboard-action-card__arrow" />
                             </Link>
                         ))}
-                        <Link to="/admin/articles" className="dashboard-action-card dashboard-action-card--cta">
+                        <Link to="/admin/projects" className="dashboard-action-card dashboard-action-card--cta">
                             <div className="dashboard-action-card__icon">
                                 <Plus size={20} />
                             </div>
                             <div className="dashboard-action-card__body">
-                                <h3>New Article</h3>
-                                <p>Publish a new agronomy insight.</p>
+                                <h3>New Project</h3>
+                                <p>Add a backend project to your portfolio.</p>
                             </div>
                             <ArrowRight size={18} className="dashboard-action-card__arrow" />
                         </Link>
@@ -178,35 +178,35 @@ const Dashboard = () => {
 
                 <section className="dashboard-panel glass-panel">
                     <div className="dashboard-panel__header">
-                        <h2>Recent Articles</h2>
-                        <Link to="/admin/articles" className="dashboard-panel__link">
+                        <h2>Recent Projects</h2>
+                        <Link to="/admin/projects" className="dashboard-panel__link">
                             View all <ArrowRight size={14} />
                         </Link>
                     </div>
 
-                    {recentArticles.length === 0 ? (
+                    {recentProjects.length === 0 ? (
                         <div className="dashboard-empty">
-                            <FileText size={32} />
-                            <p>No articles published yet.</p>
-                            <Link to="/admin/articles" className="btn dashboard-empty__btn">
-                                Create your first article
+                            <FolderKanban size={32} />
+                            <p>No projects published yet.</p>
+                            <Link to="/admin/projects" className="btn dashboard-empty__btn">
+                                Create your first project
                             </Link>
                         </div>
                     ) : (
                         <ul className="dashboard-recent-list">
-                            {recentArticles.map((article) => (
-                                <li key={article._id} className="dashboard-recent-item">
+                            {recentProjects.map((project) => (
+                                <li key={project._id} className="dashboard-recent-item">
                                     <div className="dashboard-recent-item__main">
-                                        <span className="dashboard-recent-item__title">{article.title}</span>
+                                        <span className="dashboard-recent-item__title">{project.title}</span>
                                         <span className="dashboard-recent-item__meta">
                                             <Clock size={12} />
-                                            {formatDate(article.createdAt)} · {article.author}
+                                            {formatDate(project.createdAt)} · {project.project_status}
                                         </span>
                                     </div>
                                     <Link
-                                        to="/admin/articles"
+                                        to="/admin/projects"
                                         className="dashboard-recent-item__edit"
-                                        aria-label={`Edit ${article.title}`}
+                                        aria-label={`Edit ${project.title}`}
                                     >
                                         Edit
                                     </Link>

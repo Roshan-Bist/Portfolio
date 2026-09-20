@@ -1,10 +1,45 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const Profile = require('./Models/profileModel');
-const Article = require('./Models/articleModel');
-const Auth = require('./Models/AuthModel');
+const fs = require("fs");
+const path = require("path");
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
+const Profile = require("./Models/profileModel");
+const Project = require("./Models/projectModel");
+const Article = require("./Models/articleModel");
+const Auth = require("./Models/AuthModel");
+const { DEFAULT_PROFILE_IMAGE } = require("./constants");
 
 dotenv.config();
+
+const profilesPath = path.join(__dirname, "seed-data", "profiles.json");
+const projectsPath = path.join(__dirname, "seed-data", "projects.json");
+
+/** Strip Mongo export metadata ($oid, $date, __v, timestamps). */
+function cleanMongoExport(doc) {
+    if (Array.isArray(doc)) {
+        return doc.map(cleanMongoExport);
+    }
+    if (doc && typeof doc === "object") {
+        if (Object.keys(doc).length === 1 && doc.$oid) return doc.$oid;
+        if (Object.keys(doc).length === 1 && doc.$date) return new Date(doc.$date);
+
+        const cleaned = {};
+        for (const [key, value] of Object.entries(doc)) {
+            if (key === "_id" || key === "__v" || key === "createdAt" || key === "updatedAt") {
+                continue;
+            }
+            cleaned[key] = cleanMongoExport(value);
+        }
+        return cleaned;
+    }
+    return doc;
+}
+
+function loadJson(filePath) {
+    if (!fs.existsSync(filePath)) {
+        throw new Error(`Seed file not found: ${filePath}`);
+    }
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
 
 const seedRealData = async () => {
     try {
@@ -12,94 +47,56 @@ const seedRealData = async () => {
         await mongoose.connect(process.env.MONGODB_URL);
         console.log("Connected to DB");
 
-        const realProfileData = {
-            name: "Madan Saud",
-            title: "Agronomy Expert | Sustainable Farming",
-            email: "madan.saud@example.com",
-            phone: "+47 (Contact via Email)", // Placeholder as phone is required but wasn't provided perfectly
-            address: "Stavanger, Norway",
-            image: "/uploads/image-1771971173338-501230229.jpg",
-            bio: "I am a dedicated agriculture professional with a strong foundation in modern farming practices, sustainable agriculture, and crop management. Passionate about empowering rural communities and leveraging modern technologies for high-yield, eco-friendly farming solutions.",
-            highlights: [
-                "Research into sustainable crop management",
-                "Implementation of eco-friendly farming solutions",
-                "Community outreach and agricultural education",
-                "Commitment to environmental preservation",
-                "Focus on long-term food security"
-            ],
-            socialLinks: {
-                linkedin: "https://linkedin.com/in/madansaud",
-                github: "https://github.com/madansaud", // Assuming generic
-                twitter: ""
-            },
-            skills: [],
-            experience: [
-                {
-                    title: "Agronomy Expert",
-                    company: "Sustainable Farming Institute",
-                    duration: "2018 - Present",
-                    description: "Leading research on sustainable crop management.\nImplementing eco-friendly farming solutions.\nEducating communities about environmental preservation."
-                }
-            ],
-            education: [],
-            achievements: [],
-            certifications: ["Certified Crop Advisor"],
-            languages: ["English", "Nepali"],
-            interests: ["Sustainable Farming", "Environmental Conservation"],
-            portfolio: ""
-        };
-
-        console.log("Updating Profile with real data...");
-        // Since there is only one profile, we use updateOne without specific query filter or grab the first
-        const existingProfile = await Profile.findOne({});
-
-        if (existingProfile) {
-            const result = await Profile.updateOne({ _id: existingProfile._id }, { $set: realProfileData });
-            console.log("Profile updated:", result);
-        } else {
-            const newProfile = new Profile(realProfileData);
-            await newProfile.save();
-            console.log("Profile created from scratch.");
-        }
-
         console.log("Creating/Updating Admin User...");
         await Auth.deleteMany({});
         const adminUser = new Auth({
-            name: "Madan Saud",
-            email: "madansaud@gmail.com",
-            password: "madan@123"
+            name: "Roshan Bist",
+            email: "roshanbist2025@gmail.com",
+            password: "roshan@123",
         });
         await adminUser.save();
-        console.log("Admin User created.");
+        console.log("Admin User created:", adminUser.email);
 
-        console.log("Seeding initial Articles...");
-        await Article.deleteMany({}); // Clear existing articles for the new persona
+        console.log("Seeding Profile from seed-data/profiles.json...");
+        const profilesRaw = loadJson(profilesPath);
+        const profileSource = Array.isArray(profilesRaw) ? profilesRaw[0] : profilesRaw;
+        if (!profileSource) {
+            throw new Error("profiles.json has no profile document");
+        }
 
-        const sampleArticles = [
-            {
-                title: "The Future of Sustainable Agriculture in Arid Regions",
-                content: "Exploring the latest techniques in water conservation, drought-resistant crop varieties, and soil moisture retention strategies that are helping farmers adapt to changing climates.",
-                photo: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?q=80&w=1000&auto=format&fit=crop", // agriculture field
-                author: "Madan Saud"
-            },
-            {
-                title: "Integrating Tech: IoT Sensors for Precision Soil Monitoring",
-                content: "A deep dive into how real-time data from localized IoT sensors is revolutionizing how we apply fertilizers and water, reducing waste by up to 30% while increasing crop yield.",
-                photo: "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?q=80&w=1000&auto=format&fit=crop", // tractor/tech
-                author: "Madan Saud"
-            },
-            {
-                title: "Organic vs Conventional: A Long-Term Yield Analysis",
-                content: "Reviewing a 5-year study on the delayed but compounding benefits of organic soil practices compared to traditional synthetic inputs and their long-term effects on soil biome health.",
-                photo: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?q=80&w=1000&auto=format&fit=crop", // organic produce
-                author: "Madan Saud"
-            }
-        ];
+        const profileData = cleanMongoExport(profileSource);
+        if (!profileData.image) {
+            profileData.image = DEFAULT_PROFILE_IMAGE;
+        }
 
-        await Article.insertMany(sampleArticles);
-        console.log(`Seeded ${sampleArticles.length} test articles for Madan Saud.`);
+        await Profile.deleteMany({});
+        const profile = await Profile.create(profileData);
+        console.log("Profile created:", profile.name, `(${profile.email})`);
+
+        console.log("Seeding Projects from seed-data/projects.json...");
+        const projectsRaw = loadJson(projectsPath);
+        const projects = (Array.isArray(projectsRaw) ? projectsRaw : [projectsRaw]).map((project) => {
+            const cleaned = cleanMongoExport(project);
+            return {
+                title: cleaned.title,
+                description: cleaned.description || "",
+                image: cleaned.image || "",
+                link: cleaned.link || "",
+                github: cleaned.github || "",
+                project_status: cleaned.project_status || "completed",
+                public: cleaned.public !== false,
+            };
+        });
+
+        await Project.deleteMany({});
+        await Article.deleteMany({}); // clear leftover article seed data
+        if (projects.length > 0) {
+            await Project.insertMany(projects);
+        }
+        console.log(`Seeded ${projects.length} projects.`);
 
         console.log("Data seeding completed successfully!");
+        console.log("Login with:", adminUser.email, "/ roshan@123");
         process.exit(0);
     } catch (error) {
         console.error("Error seeding real data:", error);

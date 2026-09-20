@@ -8,19 +8,18 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/Header';
 import Home from './pages/Home';
 import About from './pages/About';
-import Articles from './pages/Articles';
+import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
 import RouteScrollToTop from './components/RouteScrollToTop';
-import ArticleDetail from './pages/ArticleDetail';
 
 // Admin Components
 import Login from './pages/admin/Login';
 import AdminLayout from './components/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
 import EditProfile from './pages/admin/EditProfile';
-import ArticleManager from './pages/admin/ArticleManager';
+import ProjectManager from './pages/admin/ProjectManager';
 import { useProfileFavicon } from './hooks/useProfileFavicon';
 
 const Portfolio = () => (
@@ -38,8 +37,8 @@ const Portfolio = () => (
       <section id="about">
         <About />
       </section>
-      <section id="articles">
-        <Articles />
+      <section id="projects">
+        <Projects />
       </section>
       <section id="contact">
         <Contact />
@@ -60,7 +59,6 @@ function App() {
       <Routes>
         {/* Public Route */}
         <Route path="/" element={<Portfolio />} />
-        <Route path="/article/:id" element={<ArticleDetail />} />
 
         {/* Admin Routes */}
         <Route path="/admin/login" element={<Login />} />
@@ -73,7 +71,7 @@ function App() {
           <Route index element={<Dashboard />} /> {/* Default to Dashboard */}
           <Route path="dashboard" element={<Dashboard />} />
           <Route path="profile" element={<EditProfile />} />
-          <Route path="articles" element={<ArticleManager />} />
+          <Route path="projects" element={<ProjectManager />} />
         </Route>
       </Routes>
     </AuthProvider>

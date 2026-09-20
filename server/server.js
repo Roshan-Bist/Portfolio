@@ -10,7 +10,7 @@ const app = express();
 const connectDB = require("./Database/connectDb");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
-const articleRoutes = require("./routes/articleRoutes");
+const projectRoutes = require("./routes/projectRoutes");
 
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -64,7 +64,7 @@ app.get("/", (_req, res) => {
             health: "/api/health",
             test: "/api/test",
             profile: "/api/profile",
-            articles: "/api/articles",
+            projects: "/api/projects",
         },
     });
 });
@@ -100,7 +100,7 @@ app.get("/api/test", (_req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/profile", profileRoutes);
-app.use("/api/articles", articleRoutes);
+app.use("/api/projects", projectRoutes);
 
 // Optional: serve built frontend when present (local/fullstack hosts)
 const clientDist = path.join(__dirname, "../client/dist");

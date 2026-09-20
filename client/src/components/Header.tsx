@@ -23,7 +23,7 @@ const Header = () => {
     { name: 'Home', id: 'home' },
     { name: 'About', id: 'about' },
     { name: 'Experience', id: 'experience' },
-    { name: 'Articles', id: 'articles' },
+    { name: 'Projects', id: 'projects' },
     { name: 'Contact', id: 'contact' },
   ];
 
