@@ -65,7 +65,16 @@ const Projects = () => {
                     <p>No projects published yet. Please check back later!</p>
                 </div>
             ) : (
-                <div className="projects-grid">
+                <div
+                    className={[
+                        'projects-grid',
+                        projects.length <= 2 ? 'projects-grid--centered' : '',
+                        projects.length === 1 ? 'projects-grid--single' : '',
+                        projects.length === 2 ? 'projects-grid--duo' : '',
+                        projects.length === 4 ? 'projects-grid--quad' : '',
+                        projects.length === 5 ? 'projects-grid--five' : '',
+                    ].filter(Boolean).join(' ')}
+                >
                     {projects.map((project, index) => (
                         <article
                             key={project._id}
@@ -179,6 +188,83 @@ const Projects = () => {
                     display: grid;
                     grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
                     gap: clamp(1.5rem, 3vw, 2rem);
+                }
+
+                .projects-grid--centered {
+                    justify-content: center;
+                }
+
+                .projects-grid--single {
+                    grid-template-columns: minmax(min(100%, 380px), 420px);
+                }
+
+                .projects-grid--duo {
+                    grid-template-columns: repeat(2, minmax(min(100%, 320px), 400px));
+                }
+
+                .projects-grid--quad {
+                    grid-template-columns: repeat(3, minmax(0, 1fr));
+                }
+
+                .projects-grid--quad .project-card:nth-child(4) {
+                    grid-column: 2;
+                }
+
+                .projects-grid--five {
+                    grid-template-columns: repeat(6, minmax(0, 1fr));
+                }
+
+                .projects-grid--five .project-card:nth-child(-n+3) {
+                    grid-column: span 2;
+                }
+
+                .projects-grid--five .project-card:nth-child(4) {
+                    grid-column: 2 / span 2;
+                }
+
+                .projects-grid--five .project-card:nth-child(5) {
+                    grid-column: 4 / span 2;
+                }
+
+                @media (max-width: 900px) {
+                    .projects-grid--quad,
+                    .projects-grid--five {
+                        grid-template-columns: repeat(2, minmax(0, 1fr));
+                    }
+
+                    .projects-grid--quad .project-card:nth-child(4) {
+                        grid-column: 1 / -1;
+                        max-width: 400px;
+                        width: 100%;
+                        justify-self: center;
+                    }
+
+                    .projects-grid--five .project-card:nth-child(-n+3),
+                    .projects-grid--five .project-card:nth-child(4),
+                    .projects-grid--five .project-card:nth-child(5) {
+                        grid-column: auto;
+                    }
+
+                    .projects-grid--five .project-card:nth-child(5) {
+                        grid-column: 1 / -1;
+                        max-width: 400px;
+                        width: 100%;
+                        justify-self: center;
+                    }
+                }
+
+                @media (max-width: 768px) {
+                    .projects-grid--duo,
+                    .projects-grid--quad,
+                    .projects-grid--five {
+                        grid-template-columns: minmax(0, 1fr);
+                    }
+
+                    .projects-grid--quad .project-card:nth-child(4),
+                    .projects-grid--five .project-card:nth-child(5) {
+                        grid-column: auto;
+                        max-width: none;
+                    }
                 }
 
                 .project-card {
