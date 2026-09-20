@@ -23,6 +23,10 @@ const projectSchema = new mongoose.Schema(
             type: String,
             default: "",
         },
+        technologies: {
+            type: [String],
+            default: [],
+        },
         project_status: {
             type: String,
             enum: ["completed", "in-progress", "planned"],

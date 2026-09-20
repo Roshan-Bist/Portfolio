@@ -83,6 +83,7 @@ const seedRealData = async () => {
                 image: cleaned.image || "",
                 link: cleaned.link || "",
                 github: cleaned.github || "",
+                technologies: Array.isArray(cleaned.technologies) ? cleaned.technologies : [],
                 project_status: cleaned.project_status || "completed",
                 public: cleaned.public !== false,
             };

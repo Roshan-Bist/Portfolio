@@ -111,6 +111,16 @@ const Projects = () => {
                                         : project.description}
                                 </p>
 
+                                {project.technologies?.length > 0 && (
+                                    <div className="project-card__tech">
+                                        {project.technologies.map((tech: string) => (
+                                            <span key={tech} className="project-card__tech-tag">
+                                                {tech}
+                                            </span>
+                                        ))}
+                                    </div>
+                                )}
+
                                 <div className="project-card__actions">
                                     {project.github && (
                                         <a
@@ -379,8 +389,29 @@ const Projects = () => {
                     color: var(--text-secondary);
                     font-size: 0.95rem;
                     line-height: 1.65;
-                    margin-bottom: 1.5rem;
+                    margin-bottom: 1rem;
                     flex-grow: 1;
+                }
+
+                .project-card__tech {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 0.45rem;
+                    margin-bottom: 1.25rem;
+                }
+
+                .project-card__tech-tag {
+                    display: inline-flex;
+                    align-items: center;
+                    padding: 4px 10px;
+                    border-radius: 999px;
+                    font-size: 0.72rem;
+                    font-weight: 600;
+                    font-family: var(--font-mono);
+                    letter-spacing: 0.02em;
+                    color: var(--primary-color);
+                    background: rgba(var(--primary-rgb), 0.1);
+                    border: 1px solid rgba(var(--primary-rgb), 0.22);
                 }
 
                 .project-card__actions {

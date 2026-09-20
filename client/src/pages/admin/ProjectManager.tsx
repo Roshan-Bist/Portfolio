@@ -13,6 +13,7 @@ const EMPTY_FORM = {
     image: '',
     link: '',
     github: '',
+    technologies: [] as string[],
     project_status: 'completed',
     public: true,
 };
@@ -48,6 +49,7 @@ const ProjectManager = () => {
     const [deletingId, setDeletingId] = useState<string | null>(null);
     const [deleteTarget, setDeleteTarget] = useState<any>(null);
     const [formDirty, setFormDirty] = useState(false);
+    const [techInput, setTechInput] = useState('');
 
     const authHeaders = () => ({
         Authorization: localStorage.getItem('token') || '',
@@ -78,6 +80,7 @@ const ProjectManager = () => {
                 image: project.image || '',
                 link: project.link || '',
                 github: project.github || '',
+                technologies: Array.isArray(project.technologies) ? project.technologies : [],
                 project_status: project.project_status || 'completed',
                 public: project.public !== false,
             });
@@ -85,6 +88,7 @@ const ProjectManager = () => {
             setCurrentProject(null);
             setFormData(EMPTY_FORM);
         }
+        setTechInput('');
         setFormDirty(false);
         setIsEditorOpen(true);
     };
@@ -93,6 +97,7 @@ const ProjectManager = () => {
         if (formDirty && !window.confirm('You have unsaved changes. Discard them?')) return;
         setIsEditorOpen(false);
         setCurrentProject(null);
+        setTechInput('');
         setFormDirty(false);
     };
 
@@ -100,6 +105,29 @@ const ProjectManager = () => {
         const { name, value, type } = e.target;
         const nextValue = type === 'checkbox' ? (e.target as HTMLInputElement).checked : value;
         setFormData((prev) => ({ ...prev, [name]: nextValue }));
+        setFormDirty(true);
+    };
+
+    const addTechnology = () => {
+        const tech = techInput.trim();
+        if (!tech) return;
+        if (formData.technologies.some((t) => t.toLowerCase() === tech.toLowerCase())) {
+            setTechInput('');
+            return;
+        }
+        setFormData((prev) => ({
+            ...prev,
+            technologies: [...prev.technologies, tech],
+        }));
+        setTechInput('');
+        setFormDirty(true);
+    };
+
+    const removeTechnology = (index: number) => {
+        setFormData((prev) => ({
+            ...prev,
+            technologies: prev.technologies.filter((_, i) => i !== index),
+        }));
         setFormDirty(true);
     };
 
@@ -226,6 +254,18 @@ const ProjectManager = () => {
                                         ? `${project.description.slice(0, 140)}...`
                                         : project.description}
                                 </p>
+                                {project.technologies?.length > 0 && (
+                                    <div className="am-card__tech">
+                                        {project.technologies.slice(0, 4).map((tech: string) => (
+                                            <span key={tech} className="am-tech-chip">{tech}</span>
+                                        ))}
+                                        {project.technologies.length > 4 && (
+                                            <span className="am-tech-chip am-tech-chip--more">
+                                                +{project.technologies.length - 4}
+                                            </span>
+                                        )}
+                                    </div>
+                                )}
                                 <div className="am-card__meta">
                                     <span>{project.project_status}</span>
                                     <span>{formatDate(project.createdAt)}</span>
@@ -408,6 +448,53 @@ const ProjectManager = () => {
                                                 placeholder="https://..."
                                             />
                                         </div>
+                                    </div>
+
+                                    <div className="am-field">
+                                        <label htmlFor="tech-input">
+                                            Built with
+                                            <span className="am-field__hint">languages &amp; tools</span>
+                                        </label>
+                                        <div className="am-tech-input-row">
+                                            <input
+                                                id="tech-input"
+                                                type="text"
+                                                value={techInput}
+                                                onChange={(e) => setTechInput(e.target.value)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        e.preventDefault();
+                                                        addTechnology();
+                                                    }
+                                                }}
+                                                placeholder="e.g. Node.js, then press Enter"
+                                            />
+                                            <button
+                                                type="button"
+                                                className="am-btn am-btn--ghost am-tech-add"
+                                                onClick={addTechnology}
+                                                disabled={!techInput.trim()}
+                                            >
+                                                <Plus size={16} />
+                                                Add
+                                            </button>
+                                        </div>
+                                        {formData.technologies.length > 0 && (
+                                            <div className="am-tech-list">
+                                                {formData.technologies.map((tech, index) => (
+                                                    <span key={`${tech}-${index}`} className="am-tech-chip am-tech-chip--editable">
+                                                        {tech}
+                                                        <button
+                                                            type="button"
+                                                            aria-label={`Remove ${tech}`}
+                                                            onClick={() => removeTechnology(index)}
+                                                        >
+                                                            <X size={12} />
+                                                        </button>
+                                                    </span>
+                                                ))}
+                                            </div>
+                                        )}
                                     </div>
 
                                     <div className="am-field">
@@ -723,6 +810,74 @@ const ProjectManagerStyles = () => (
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
+        }
+
+        .am-card__tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .am-tech-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 9px;
+            border-radius: 999px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            color: var(--primary-color);
+            background: rgba(var(--primary-rgb), 0.1);
+            border: 1px solid rgba(var(--primary-rgb), 0.22);
+        }
+
+        .am-tech-chip--more {
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .am-tech-chip--editable button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: inherit;
+            opacity: 0.7;
+            padding: 0;
+            border-radius: 50%;
+        }
+
+        .am-tech-chip--editable button:hover {
+            opacity: 1;
+        }
+
+        .am-tech-input-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .am-tech-input-row input {
+            flex: 1;
+        }
+
+        .am-tech-add {
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
+        .am-tech-add:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .am-tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.45rem;
+            margin-top: 0.75rem;
         }
 
         .am-card__meta {
