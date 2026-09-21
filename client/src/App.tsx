@@ -8,6 +8,7 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Header from './components/Header';
 import Home from './pages/Home';
 import About from './pages/About';
+import Skills from './components/Skills';
 import Projects from './pages/Projects';
 import Contact from './pages/Contact';
 import Footer from './components/Footer';
@@ -36,6 +37,9 @@ const Portfolio = () => (
       </section>
       <section id="about">
         <About />
+      </section>
+      <section id="skills">
+        <Skills />
       </section>
       <section id="projects">
         <Projects />
